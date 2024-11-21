@@ -1,20 +1,20 @@
 <script setup>
-import Editor from 'primevue/editor'
+import Textarea from 'primevue/textarea'
+import { computed, ref } from 'vue';
+import Sanscript from '@indic-transliteration/sanscript';
+const text = ref('')
+const transliterated_text = computed(() => {
+  return Sanscript.t(text.value, 'hk', 'devanagari')
+})
+
 </script>
 
 <template>
   <header>
     <nav><h1>Indic Word Processor</h1></nav>
   </header>
-  <Editor>
-    <template v-slot:toolbar>
-      <span class="ql-formats">
-        <button v-tooltip.bottom="'Bold'" class="ql-bold"></button>
-        <button v-tooltip.bottom="'Italic'" class="ql-italic"></button>
-        <button v-tooltip.bottom="'Underline'" class="ql-underline"></button>
-      </span>
-    </template>
-  </Editor>
+  <Textarea v-model="text" ></Textarea>
+  <Textarea v-model="transliterated_text" readonly></Textarea>
 </template>
 
 <style>
@@ -22,7 +22,11 @@ header {
   margin-bottom: 1em;
 }
 
-.p-editor {
-  height: 90%;
+.p-textarea {
+  resize: none;
+  display: block;
+  height: 40%;
+  margin-bottom: 1em;
+  width: 100%
 }
 </style>
